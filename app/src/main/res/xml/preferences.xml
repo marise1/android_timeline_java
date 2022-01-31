@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#616161">
+
+    <PreferenceCategory android:title="Change Colors">
+
+    </PreferenceCategory>
+    <EditTextPreference
+        android:key="@string/contemporary_key"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Contemporary" />
+</PreferenceScreen>

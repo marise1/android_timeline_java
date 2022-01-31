@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="contemporary">#7D7D7D</color>
+    <color name="modern1">#6EC6AF</color>
+    <color name="modern2">#B69F31</color>
+    <color name="medieval">#365A2B</color>
+    <color name="classical">#C56E29</color>
+    <color name="prehistory">#995023</color>
+
+    <color name="background">#BB6147</color>
+</resources>

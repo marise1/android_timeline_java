@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Timeline</string>
+    <string name="btnCircle">add note</string>
+    <string name="btnGo">Go</string>
+    <string name="tbxGoHint">Type year</string>
+    <string name="btnSettings">settings</string>
+
+    <string name="btnBack">Back</string>
+    <string name="btnSave">Save</string>
+    <string name="txtNoteFullHint">Type note</string>
+
+    <string name="contemporary_key" translatable="false">CONTEMPORARY</string>
+
+</resources>
