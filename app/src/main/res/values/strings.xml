@@ -5,9 +5,19 @@
     <string name="tbxGoHint">Type year</string>
     <string name="btnSettings">settings</string>
 
+    <string name="btnClear">clear</string>
+    <string name="txtTitle">title</string>
+    <string name="colorPreview">color preview</string>
+
+    <string name="txtRed" translatable="false">R</string>
+    <string name="txtGreen" translatable="false">G</string>
+    <string name="txtBlue" translatable="false">B</string>
+
     <string name="btnBack">Back</string>
     <string name="btnSave">Save</string>
     <string name="txtNoteFullHint">Type note</string>
+
+    <string name="contemporary">Contemporary</string>
 
     <string name="contemporary_key" translatable="false">CONTEMPORARY</string>
 

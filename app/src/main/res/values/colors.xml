@@ -8,4 +8,6 @@
     <color name="prehistory">#995023</color>
 
     <color name="background">#BB6147</color>
+    <color name="settingsBackground">#808080</color>
+
 </resources>

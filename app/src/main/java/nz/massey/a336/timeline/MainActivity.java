@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             }, 200);
         }
 
-        // search year
+        // searchBox
         mMainLayout.btnGo.setOnClickListener((view) -> {
 
             int searchYear = 0;
@@ -106,10 +107,14 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.i(TAG, "goto: " + searchYear);
 
-            int moveTo = findYearPos(searchYear);
-            if(moveTo > LIST_YEAR.size() - 1 || moveTo < 0){
-                Log.i(TAG, "ignore " + moveTo);
+            if(searchYear > 2100 || searchYear < -3000){
+                String message = "range: -3000 to 2100";
+
+                Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+                toast.show();
+                return;
             }
+            int moveTo = findYearPos(searchYear);
             mMainLayout.list.scrollToPosition(moveTo);
         });
 
@@ -126,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             Scanner scanner = new Scanner(new InputStreamReader(is));
             scanner.useDelimiter(";\n");
 
-            // first line is currentYear
+            // first entry is currentYear, to not have first entry empty when scanning
             currentYear = scanner.nextInt();
             Log.i(TAG, "first entry: " + currentYear);
 

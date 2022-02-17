@@ -1,29 +1,42 @@
 package nz.massey.a336.timeline;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.preference.PreferenceFragmentCompat;
+
+import nz.massey.a336.timeline.databinding.ActivityMainBinding;
+import nz.massey.a336.timeline.databinding.ActivitySettingsBinding;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    public static class SettingsFragment extends PreferenceFragmentCompat {
+    public static final String TAG = "SettingsActivity";
 
-        @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.preferences, rootKey);
-        }
-    }
+    private ActivitySettingsBinding mSettingsLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        mSettingsLayout = ActivitySettingsBinding.inflate(getLayoutInflater());
+        setContentView(mSettingsLayout.getRoot());
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
-                .commit();
+        final ColorPickerDialog colorPickerDialog = new ColorPickerDialog(SettingsActivity.this, 127, 123, 67);
+
+        mSettingsLayout.menuContemporary.setOnClickListener((view) -> {
+            colorPickerDialog.show(getSupportFragmentManager(),null);
+            Log.i(TAG, "");
+        });
+
+        colorPickerDialog.setCallback(new ColorPickerDialog.ColorPickerCallback() {
+            @Override
+            public void onColorChosen(int color) {
+                mSettingsLayout.colorPreviewMenuContemporary.setBackgroundColor(color);
+
+            }
+        });
+
     }
 }

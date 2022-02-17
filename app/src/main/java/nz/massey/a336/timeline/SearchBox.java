@@ -33,22 +33,31 @@ public class SearchBox extends androidx.appcompat.widget.AppCompatEditText {
         init();
     }
 
-    private void showClearButton() {
-        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, mBtnClear, null);
-    }
-
-    private void hideClearButton() {
-        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
-    }
 
     private void init() {
         mBtnClear = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_clear_24_opaque, null);
+
+        addTextChangedListener(new TextWatcher(){
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                showClearButton();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                // at the end of text where drawble is
+                // at the end of text where drawable is
                 if ((getCompoundDrawablesRelative()[2] != null)) {
 
                     float clearButtonStart; // left to right
@@ -91,23 +100,13 @@ public class SearchBox extends androidx.appcompat.widget.AppCompatEditText {
             }
         });
 
-        addTextChangedListener(new TextWatcher(){
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                showClearButton();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
 
+    private void showClearButton() {
+        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, mBtnClear, null);
+    }
+
+    private void hideClearButton() {
+        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+    }
 }

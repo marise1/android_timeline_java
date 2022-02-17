@@ -58,12 +58,13 @@
         android:gravity="top"
         android:hint="@string/txtNoteFullHint"
         android:importantForAutofill="no"
-        android:inputType="text"
         android:textColor="@android:color/white"
+        android:textCursorDrawable="@drawable/cursor"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="dddddddddddggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
