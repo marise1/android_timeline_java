@@ -7,10 +7,16 @@
         <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/drawable/cursor.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/drawable/edit.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" value="0.10185185185185185" />
-        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/drawable/seekbar_background.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/drawable/seekbar_circle.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/drawable/seekbar_progress.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/drawable/seekbar_progress_blue.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/drawable/seekbar_progress_red.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/drawable/seekbar_progress_whole.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/layout/activity_note.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/layout/activity_settings.xml" value="0.25" />
-        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/layout/color_picker_dialog.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/layout/color_picker_dialog.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/layout/list_year.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/cmd/android/ass/ass3/timeline/app/src/main/res/xml/preferences.xml" value="0.22" />
       </map>

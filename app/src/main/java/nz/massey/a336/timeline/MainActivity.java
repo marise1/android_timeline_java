@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
             int searchYear = 0;
             try {
-                searchYear = Integer.parseInt(mMainLayout.tbxGo.getText().toString());
+                searchYear = Integer.parseInt(mMainLayout.searchBox.getText().toString());
             } catch(NumberFormatException e){
                 e.printStackTrace();
                 Log.i(TAG, "ignore no number");
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 String message = "range: -3000 to 2100";
 
                 Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 250);
                 toast.show();
                 return;
             }

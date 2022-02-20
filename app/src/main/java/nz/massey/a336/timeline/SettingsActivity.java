@@ -23,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         mSettingsLayout = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(mSettingsLayout.getRoot());
 
-        final ColorPickerDialog colorPickerDialog = new ColorPickerDialog(SettingsActivity.this, 127, 123, 67);
+        final ColorPickerDialog colorPickerDialog = new ColorPickerDialog(SettingsActivity.this, 50, 0, 0);
 
         mSettingsLayout.menuContemporary.setOnClickListener((view) -> {
             colorPickerDialog.show(getSupportFragmentManager(),null);

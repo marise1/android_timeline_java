@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:background="@color/settingsBackground"
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -39,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <nz.massey.a336.timeline.SearchBox
-            android:id="@+id/tbxGo"
+            android:id="@+id/searchBox"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -52,6 +53,7 @@
             android:minHeight="48dp"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
+            android:textCursorDrawable="@drawable/cursor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnGo"
             app:layout_constraintStart_toStartOf="parent" />
