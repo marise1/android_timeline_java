@@ -34,6 +34,8 @@ public class ColorPickerDialog extends DialogFragment implements SeekBar.OnSeekB
     private int blue = 0;
     private SeekBar seekBarR, seekBarG, seekBarB;
 
+    boolean triggerByText = false;
+    boolean triggerBySeekBar = false;
 
     public interface ColorPickerCallback {
         void onColorChosen(int color);
@@ -75,7 +77,6 @@ public class ColorPickerDialog extends DialogFragment implements SeekBar.OnSeekB
         mColorPickerDialogLayout.txtRedVal.addTextChangedListener(new EditTextVal(mColorPickerDialogLayout.txtRedVal));
         mColorPickerDialogLayout.txtGreenVal.addTextChangedListener(new EditTextVal(mColorPickerDialogLayout.txtGreenVal));
         mColorPickerDialogLayout.txtBlueVal.addTextChangedListener(new EditTextVal(mColorPickerDialogLayout.txtBlueVal));
-
 
         mColorPickerDialogLayout.txtRedVal.setFilters(new InputFilter[]{new InputFilterMinMax("0", "255")});
         mColorPickerDialogLayout.txtGreenVal.setFilters(new InputFilter[]{new InputFilterMinMax("0", "255")});
@@ -124,25 +125,32 @@ public class ColorPickerDialog extends DialogFragment implements SeekBar.OnSeekB
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-        if (seekBar.getId() == R.id.barRed) {
-            red = progress;
-            mColorPickerDialogLayout.colorPreviewDialog.setBackgroundColor(Color.rgb(red, green, blue));
+        // don't do if triggered by changing text
+        if(!triggerByText){
+            triggerBySeekBar = true;
 
-            mColorPickerDialogLayout.txtRedVal.setText("" + progress);
-            //Log.i(TAG, "red " + progress);
+            if (seekBar.getId() == R.id.barRed) {
+                red = progress;
+                mColorPickerDialogLayout.txtRedVal.setText("" + progress);
 
-        } else if (seekBar.getId() == R.id.barGreen) {
-            green = progress;
-            mColorPickerDialogLayout.colorPreviewDialog.setBackgroundColor(Color.rgb(red, green, blue));
+                // put cursor at end when changing seekBar
+                mColorPickerDialogLayout.txtRedVal.setSelection(mColorPickerDialogLayout.txtRedVal.getText().length());
 
-            mColorPickerDialogLayout.txtGreenVal.setText("" + progress);
-        } else {
-            blue = progress;
-            mColorPickerDialogLayout.colorPreviewDialog.setBackgroundColor(Color.rgb(red, green, blue));
+                //Log.i(TAG, "red " + progress);
 
-            mColorPickerDialogLayout.txtBlueVal.setText("" + progress);
+            } else if (seekBar.getId() == R.id.barGreen) {
+                green = progress;
+                mColorPickerDialogLayout.txtGreenVal.setText("" + progress);
+                mColorPickerDialogLayout.txtGreenVal.setSelection(mColorPickerDialogLayout.txtGreenVal.getText().length());
+
+            } else {
+                blue = progress;
+                mColorPickerDialogLayout.txtBlueVal.setText("" + progress);
+                mColorPickerDialogLayout.txtBlueVal.setSelection(mColorPickerDialogLayout.txtBlueVal.getText().length());
+            }
+            setColorPreviewDialogBackground();
+            triggerBySeekBar = false;
         }
-
     }
 
     @Override
@@ -173,25 +181,37 @@ public class ColorPickerDialog extends DialogFragment implements SeekBar.OnSeekB
         @Override
         public void afterTextChanged(Editable s) {
 
-            if(view.getId() == R.id.txtRedVal){
-                red = Integer.parseInt(mColorPickerDialogLayout.txtRedVal.getText().toString());
+            if(!triggerBySeekBar){
+                triggerByText = true;
 
-                mColorPickerDialogLayout.colorPreviewDialog.setBackgroundColor(Color.rgb(red, green, blue));
-                mColorPickerDialogLayout.barRed.setProgress(red);
-                //Log.i(TAG, "text changed ");
+                if(view.getId() == R.id.txtRedVal){
+                    try{
+                        red = Integer.parseInt(mColorPickerDialogLayout.txtRedVal.getText().toString());
+                    } catch (NumberFormatException e){}
 
-            } else if(view.getId() == R.id.txtGreenVal){
-                green = Integer.parseInt(mColorPickerDialogLayout.txtGreenVal.getText().toString());
+                    mColorPickerDialogLayout.barRed.setProgress(red);
+                    //Log.i(TAG, "text changed ");
 
-                mColorPickerDialogLayout.colorPreviewDialog.setBackgroundColor(Color.rgb(red, green, blue));
-                mColorPickerDialogLayout.barGreen.setProgress(green);
-            } else{
-                blue = Integer.parseInt(mColorPickerDialogLayout.txtBlueVal.getText().toString());
+                } else if(view.getId() == R.id.txtGreenVal){
+                    try{
+                        green = Integer.parseInt(mColorPickerDialogLayout.txtGreenVal.getText().toString());
+                    } catch (NumberFormatException e){}
 
-                mColorPickerDialogLayout.colorPreviewDialog.setBackgroundColor(Color.rgb(red, green, blue));
-                mColorPickerDialogLayout.barBlue.setProgress(blue);
+                    mColorPickerDialogLayout.barGreen.setProgress(green);
+                } else{
+                    try{
+                        blue = Integer.parseInt(mColorPickerDialogLayout.txtBlueVal.getText().toString());
+                    } catch (NumberFormatException e){}
+
+                    mColorPickerDialogLayout.barBlue.setProgress(blue);
+                }
+                setColorPreviewDialogBackground();
+                triggerByText = false;
             }
         }
+    }
 
+    private void setColorPreviewDialogBackground(){
+        mColorPickerDialogLayout.colorPreviewDialog.setBackgroundColor(Color.rgb(red, green, blue));
     }
 }

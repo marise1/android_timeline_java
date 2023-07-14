@@ -42,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_NOTE = "NOTE";
 
     private static final List<String> LIST_NOTE = new ArrayList<>();
-    private static final List<Integer> LIST_YEAR = new ArrayList<>();
+    //private static final List<Integer> LIST_YEAR = new ArrayList<>();
 
-    private static final int startYear = -3000;
+    private static final int startYear = -600;
+    private static final int topYear = 2100;
     private static int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
     private static boolean installed;
@@ -56,16 +57,18 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding mMainLayout;
     private static final String filename = "notes.txt";
     private final MyAdapter mAdapter = new MyAdapter();
+    private static long readingTime;
 
     static {
         int pos = 0;
-        for (int i = 2100; i >= startYear; i--) {
+        for (int i = topYear; i >= startYear; i--) {
             LIST_NOTE.add("");
-            LIST_YEAR.add(i);
+            //LIST_YEAR.add(i);
             pos++;
-            if(i == currentYear) mCurrYearPos = pos;
+            //if(i == currentYear) mCurrYearPos = pos; // fix this
         }
-        Log.i(TAG, "static " + mCurrYearPos + ", " + currentYear + ", " + LIST_YEAR.size());
+        mCurrYearPos = topYear - currentYear;
+        Log.i(TAG, "static " + mCurrYearPos + ", " + currentYear + ", " + LIST_NOTE.size());
         installed = true;
     }
 
@@ -83,16 +86,17 @@ public class MainActivity extends AppCompatActivity {
             });
 
             // readFile only once when install, if there is a file, sets LIST_NOTE
+            // do on other thread and then post to main thread
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     long startTime = System.currentTimeMillis();
-                    //readFile();
-                    long estimatedTime = System.currentTimeMillis() - startTime;
-                    Log.i(TAG, "time: " + estimatedTime);
-                    //mAdapter.notifyDataSetChanged();
+                    readFile();
+                    readingTime = System.currentTimeMillis() - startTime;
+                    Log.i(TAG, "time: " + readingTime);
+                    mAdapter.notifyDataSetChanged(); // call adapter to update view
                 }
-            }, 200);
+            }, readingTime);
         }
 
         // searchBox
@@ -108,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.i(TAG, "goto: " + searchYear);
 
-            if(searchYear > 2100 || searchYear < -3000){
-                String message = "range: -3000 to 2100";
+            if(searchYear > 2100 || searchYear < startYear){
+                String message = "out of range";
 
                 Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP, 0, 250);
@@ -131,25 +135,21 @@ public class MainActivity extends AppCompatActivity {
         try {
             FileInputStream is = this.openFileInput(filename);
             Scanner scanner = new Scanner(new InputStreamReader(is));
-            scanner.useDelimiter(";\n");
+            scanner.useDelimiter(";\n\n");
 
             // first entry is currentYear, to not have first entry empty when scanning
-            currentYear = scanner.nextInt();
-            Log.i(TAG, "first entry: " + currentYear);
+            //currentYear = scanner.nextInt();
+            //Log.i(TAG, "first entry: " + currentYear);
 
             int i = 0;
             String text = "";
+            String[] stringArray;
             while(scanner.hasNext()){
-                Log.i(TAG, "readScanner: " + i + " " + text);
+                //Log.i(TAG, "readScanner: " + i + " " + text);
 
-                text = /*"sssssssssssssssssssssssssss" +
-                        "dddddddddddddddddddddddddddd" +
-                        "ddddddddddddddddddddddddddd" +
-                        "d dddddddddddddd" +
-                        "ddddddddddddddddddddddddddddd\n" +
-                        "dddddddddddkkk";*/
-                        scanner.next();
-                LIST_NOTE.set(i, text);
+                text = scanner.next();
+                stringArray = text.split(",");
+                LIST_NOTE.set(i, stringArray[2].substring(1)); // remove space from comma separated
                 i++;
             }
             scanner.close();
@@ -167,10 +167,16 @@ public class MainActivity extends AppCompatActivity {
             // create file if not exist
             FileOutputStream fos = this.openFileOutput(filename, Context.MODE_PRIVATE);
 
-            fos.write((currentYear + ";\n").getBytes());
-            for (String text : LIST_NOTE) {
-                fos.write((text + ";\n").getBytes());
-                Log.i(TAG, "read: " + text);
+            //fos.write((currentYear + ";\n").getBytes());
+            int pos = 0;
+            int year = pos + topYear;
+            String text = "";
+            for (String entry : LIST_NOTE) {
+                text = pos + ", " + year + ", " + entry + ";\n\n";
+                fos.write(text.getBytes());
+                pos++;
+                year--;
+                //Log.i(TAG, "read: " + text);
             }
             fos.close();
         } catch (IOException e) {
@@ -231,9 +237,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         Log.i(TAG, "onStop");
 
-        // when list_note is changed, save list_note before uninstall
+        // only when list_note is changed, update file in case of uninstall
         if(received){
-            received = false;
+            received = false; // receive intent from noteActivity
             writeFile();
             Log.i(TAG, "received: writeFile " + received);
         }
@@ -265,13 +271,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // happens every time for views on screen
+        // create view holder once for view
         @Override
         @NonNull
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             Log.i(TAG, "onCreateViewHolder");
 
+            // parse xml to create view, add to parent viewGroup
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_year, parent, false);
+
+            // have fields to cache findViewById
             final ViewHolder vh = new ViewHolder(view);
             return vh;
         }
@@ -280,15 +289,19 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder vh, int pos) {
 
-            int year = LIST_YEAR.get(pos);
+            int year = topYear - pos; // why not calculate year from pos
             String note = LIST_NOTE.get(pos);
-            Log.i(TAG, "note:" + note);
+            //Log.i(TAG, "note:" + note);
 
             vh.mYearView.setText(("" + year));
             vh.mNoteView.setText(note);
 
+            SharedPreferences pref = getSharedPreferences("settings", MODE_PRIVATE);
+            int color = pref.getInt("color", getResources().getColor(R.color.contemporary));
+
+
             if(year >= 1900){
-                vh.mListBlock.setBackgroundColor(getResources().getColor(R.color.contemporary));
+                vh.mListBlock.setBackgroundColor(color);
 /*
                 vh.mYearView.setTextColor(Color.WHITE);
                 vh.mNoteView.setTextColor(Color.WHITE);
@@ -318,15 +331,15 @@ public class MainActivity extends AppCompatActivity {
 
                 context.startActivity(intent);
             });
-            Log.i(TAG, "onBind");
+            //Log.i(TAG, "onBind");
 
         }
 
         // happens for all the views visible on screen, when new views as dragged
         @Override
         public int getItemCount() {
-            Log.i(TAG, "yearSize:" + LIST_YEAR.size());
-            return LIST_YEAR.size();
+            //Log.i(TAG, "yearSize:" + LIST_YEAR.size());
+            return LIST_NOTE.size();
         }
     }
 }

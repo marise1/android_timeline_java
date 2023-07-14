@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Change Colors">
+    <Preference
+        android:layout="@layout/activity_settings"/>
+
+    <PreferenceCategory
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="Change Colors">
+
+        <EditTextPreference
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:key="@string/contemporary_key"
+            android:layout="@layout/activity_settings"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Contemporary" />
+
+        <EditTextPreference
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:key="@string/contemporary_key"
+            android:layout="@layout/activity_settings"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Contemporary" />
 
     </PreferenceCategory>
-
-    <EditTextPreference
-        android:key="@string/contemporary_key"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Contemporary" />
-
-
 </PreferenceScreen>
